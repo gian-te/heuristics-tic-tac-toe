@@ -18,12 +18,23 @@ namespace TicTacToe.Common.Entities
 
         // List<Move> history
 
-        // MoveRandomly() <- Level 0, can lose if randomized move are bad
+        // MoveRandomly() <- Level 0, can lose if randomized movess are bad
 
         // MoveUsingHardcodedTable() <- Level 1, never lose, can win if opponent plays bad movess, always forces a draw if opponent plays optimally
 
-        // MoveIntelligently() <- Level 2, most likely forced draw?? heuristic could be which cells can generate a straight line of 3 symbols. best move would be one which generates the most number of possible win scenarios
+        // MoveIntelligently() <- Level 2, most likely forced draw?? heuristic could be count of possible winning scenarios. best move would be one which generates the most number of possible win scenarios
+       
+        /*
+         
+        -|-|- 
+        X|O|-  
+        -|-|-
+
+         */
+
+        // MoveMoreIntelligently() ? <- Level 3, heuristic could be count of possible winning scenarios AND blocks opponent's winning chances
 
         // Symbol <- X or O
+
     }
 }
