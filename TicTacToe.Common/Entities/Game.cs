@@ -8,11 +8,9 @@ namespace TicTacToe.Common.Entities
 {
     public class Game
     {
-        // 3x3 2D array to store the current game state. 
+        // 3x3 2D array (?) to store the current game state
 
         // DecideTurnOne()  <- randomly decide who goes first, alternating after first decision
 
-       
-        
     }
 }

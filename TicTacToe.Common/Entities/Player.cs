@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToe.Common.Entities
 {
-    public class Move
+    // store the human player's info, actions (?)
+    public class Player
     {
-        // store the coordinates only
-        // and Symbol
+        // public void Move(Game game, Move move)
     }
 }
