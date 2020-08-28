@@ -279,6 +279,7 @@ namespace TicTacToe.Common.Entities
                         if (i != last.Row && i != secondLast.Row)
                         {
                             m.Row = i;
+                            m.Col = last.Col;
                         }
                     }
                 }
@@ -290,6 +291,7 @@ namespace TicTacToe.Common.Entities
                         if (i != last.Col && i != secondLast.Col)
                         {
                             m.Col = i;
+                            m.Row = last.Row;
                         }
                     }
                 }
