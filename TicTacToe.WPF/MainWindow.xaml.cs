@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using TicTacToe.Common.Enums;
+using TicTacToe.WPF.View;
+using TicTacToe.WPF.ViewModel;
 
 namespace TicTacToe.WPF
 {
@@ -23,6 +14,45 @@ namespace TicTacToe.WPF
         public MainWindow()
         {
             InitializeComponent();
+            InitGameBoard.InitGrid(ticTacToeGrid);
+            InitAgents();
+        }
+
+        private void StartGame_Click(object sender, RoutedEventArgs e)
+        {
+            if (GameManipulation.Data.FirstMove == "Smart Agent")
+            {
+                GameManipulation.Data.GameData.GameState = InitGameBoard.gameBoard;
+                GameManipulation.SmartAgentMovement();
+            }
+        }
+
+        private void ResetGame_Click(object sender, RoutedEventArgs e)
+        {
+            GameManipulation.ClearAllData();
+        }
+
+
+        private void StartPlayerChecked(object sender, RoutedEventArgs e)
+        {
+            RadioButton chk = sender as RadioButton;
+            GameManipulation.Data.FirstMove = chk.Content.ToString();
+        }
+
+        private void LevelChecked(object sender, RoutedEventArgs e)
+        {
+            RadioButton chkTwo = sender as RadioButton;
+            GameManipulation.Data.GameLevel = chkTwo.Content.ToString();
+        }
+
+        private void InitAgents()
+        {
+            IsSmartAgent.IsChecked = true;
+            IsRandom.IsChecked = true;
+            GameManipulation.Data.FirstMove = "Smart Agent";
+            GameManipulation.Data.GameLevel = "Random";
+            GameManipulation.Data.Smart = Symbols.X.ToString();
+            GameManipulation.Data.Human = Symbols.O.ToString();
         }
     }
 }

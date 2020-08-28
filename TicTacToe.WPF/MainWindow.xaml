@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToe.WPF"
         mc:Ignorable="d"
-        Title="Tic Tac Toe" Height="468.199" Width="565.074">
-    <Grid>
+              Title="Tic Tac Toe" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Foreground="White">
+    <Grid x:Name="mainGrid" Background="#FF252827">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+            <Grid x:Name="dashBoard" Margin="0,0,-0.333,-1" Background="#FF252827" Width="440" Height="175" >
+                <Label Content="TIC-TAC-TOE" HorizontalAlignment="Left" Margin="79,10,0,0" VerticalAlignment="Top" FontSize="35" Width="256" FontWeight="Bold" FontFamily="Arial" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" Foreground="#FFFEB547"/>
+                <Label Content="Select First Player  :" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="161" FontFamily="Arial" VerticalContentAlignment="Center" Background="{x:Null}" Foreground="#FFFEB547" FontSize="15"/>
+                <RadioButton x:Name="IsSmartAgent" GroupName="StartPlayer" Checked ="StartPlayerChecked" Content="Smart Agent" HorizontalAlignment="Left" Height="27" Margin="176,60,0,0" VerticalAlignment="Top" Width="115" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
+                <RadioButton x:Name="IsHumanPlayer" GroupName="StartPlayer" Checked ="StartPlayerChecked" Content="Human Player" HorizontalAlignment="Left" Height="27" Margin="296,61,0,0" VerticalAlignment="Top" Width="134" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
+                
+                <Label Content="Level :" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Width="66" FontFamily="Arial" VerticalContentAlignment="Center" Background="{x:Null}" Foreground="#FFFEB547" FontSize="15"/>
+                <RadioButton x:Name="IsRandom" GroupName="Level" Checked ="LevelChecked" Content="Random" HorizontalAlignment="Left" Height="27" Margin="81,88,0,0" VerticalAlignment="Top" Width="81" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
+                <RadioButton x:Name="IsHardCoded" GroupName="Level" Checked ="LevelChecked" Content="Hardcoded" HorizontalAlignment="Left" Height="27" Margin="176,87,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
+                <RadioButton x:Name="IsSmart" GroupName="Level" Checked ="LevelChecked" Content="Smart" HorizontalAlignment="Left" Height="27" Margin="296,87,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
 
+                <Button Content="START" HorizontalAlignment="Left" Height="27" Margin="57,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="StartGame_Click"/>
+                <Button Content="RESET" HorizontalAlignment="Left" Height="27" Margin="222,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="ResetGame_Click"/>
+            </Grid>
+            <Grid x:Name="ticTacToeGrid" Margin="0,0,-0.333,-0.667" Background="#FF252827" />
+        </StackPanel>
     </Grid>
 </Window>
