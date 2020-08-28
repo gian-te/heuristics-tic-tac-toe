@@ -8,13 +8,13 @@ namespace TicTacToe.Common.Utilities
     {
         public static Random Random = new Random();
         private static readonly object syncLock = new object();
-        public static int RandomizeNumber(int min = 1, int max = 101)
+        public static int RandomizeNumber(int minInclusive = 1, int maxInclusive = 100)
         {
-            // for some reason .NET implemented this to be inclusive of lower bound, but exclusive of upper bound lol
+            maxInclusive += 1;
             // https://docs.microsoft.com/en-us/dotnet/api/system.random.next?view=netcore-3.1
             lock (syncLock)
             {
-                return Random.Next(min, max);
+                return Random.Next(minInclusive, maxInclusive);
             }
         }
       

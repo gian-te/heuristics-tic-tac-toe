@@ -31,15 +31,24 @@ namespace TicTacToe.WPF
             {
                 GameManipulation.GenerateRandomMove();
             }
+            else if (GameManipulation.Data.FirstMove == Players.Agent && GameManipulation.Data.GameLevel == IntelligenceLevels.Hardcoded)
+            {
+                GameManipulation.GenerateHardCodedMove();
+            }
             // else agent to be notified via subscription in InitGameBoard.SubscribeEvent();
         }
 
         private void ResetGame_Click(object sender, RoutedEventArgs e)
         {
-            GameManipulation.ClearAllData();
-            //ticTacToeGrid.Visibility = Visibility.Collapsed;
+            Reset();
         }
 
+        private void Reset()
+        {
+            GameManipulation.ClearAllData();
+            // adding this here for now for the user to not forget to click "start"
+            ticTacToeGrid.Visibility = Visibility.Collapsed;
+        }
 
         private void StartPlayerChecked(object sender, RoutedEventArgs e)
         {
@@ -55,6 +64,7 @@ namespace TicTacToe.WPF
                 default:
                     break;
             }
+       
         }
 
         private void LevelChecked(object sender, RoutedEventArgs e)
@@ -75,6 +85,7 @@ namespace TicTacToe.WPF
                 default:
                     break;
             }
+         
 
         }
 

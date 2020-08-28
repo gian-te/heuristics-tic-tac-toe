@@ -39,16 +39,11 @@ namespace TicTacToe.Common.Data
             }
         }
 
-        private List<Move> _smartHistory = new List<Move>();
-        public List<Move> SmartHistory
+        public List<Move> AgentHistory
         {
             get
             {
-                return _smartHistory;
-            }
-            set
-            {
-                _smartHistory = value;
+                return Agent.History;
             }
         }
 

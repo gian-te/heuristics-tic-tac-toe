@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TicTacToe.Common.Data;
 using TicTacToe.Common.Utilities;
 
@@ -46,20 +47,6 @@ namespace TicTacToe.Common.Entities
             }
         }
 
-        public static string smart = "X";
-
-        private Agent _agent;
-        public Agent GetInstance
-        {
-            get
-            {
-                if (_agent == null)
-                {
-                    _agent = new Agent();
-                }
-                return _agent;
-            }
-        }
 
         public Move GenerateMoveIntelligently(GamePlay game)
         {
@@ -72,17 +59,84 @@ namespace TicTacToe.Common.Entities
         public Move GenerateMoveRandomly(Game game, List<Move> userHistory)
         {
             int usrCount, smrtCount, row = -1, col = -1;
-            Move m = new Move();
+            var m = new Move();
             do
             {
-                col = Randomizer.RandomizeNumber(0, 3);
-                row = Randomizer.RandomizeNumber(0, 3);
+                col = Randomizer.RandomizeNumber(0, 2);
+                row = Randomizer.RandomizeNumber(0, 2);
                 usrCount = userHistory.Where(x => x.Row == row && x.Col == col).Count();
                 smrtCount = _history.Where(x => x.Row == row && x.Col == col).Count();
             } while ((usrCount > 0) || (smrtCount > 0));
             _history.Add(new Move() { Row = row, Col = col });
             m.Col = col;
             m.Row = row;
+            History.Add(m);
+
+            return m;
+        }
+
+        /// <summary>
+        /// This will take the center and/or prioritize blocking the opponent's moves using symmetrical checking
+        /// </summary>
+        /// <param name="gameData"></param>
+        /// <param name="humanHistory"></param>
+        /// <returns></returns>
+        public Move GenerateMoveUsingHardCodedTable(Game gameData, List<Move> humanHistory)
+        {
+          
+            /*
+           -|-|- 
+           X|O|-  
+           -|-|-
+            */
+            var m = new Move();
+            // prioritize taking the center
+            if (humanHistory.Where(move => move.Col == 1 && move.Row == 1).FirstOrDefault() == null && History.Where(move => move.Col == 1 && move.Row == 1).FirstOrDefault() == null)
+            {
+                // literally hardcoded :D
+                m.Col = 1;
+                m.Row = 1;
+                return m;
+            }
+            else // if the center is already taken, either block the corners using symmetry or 
+            {
+                // implement invert and rotate implementation for symmetry and inverse checking or just hard code?
+                m = CheckSymmetricCornerCombinations(gameData, 0, 0); // rotates and checks all possible combinations for [0,0] and rotates again to check the next symmetric configurations, [0,2], [2,2], [2,0] 
+                // m = CheckSymmetricCombinations(0, 1);
+
+            }
+
+            History.Add(m);
+
+            return m;
+        }
+
+
+        /// <summary>
+        /// [gian] This will check upper left (position [0,0] only) and then rotate the grid 90 degrees to the right, and check that position [0, 2], until it reaches the original position
+        /// 
+        /// </summary>
+        private Move CheckSymmetricCornerCombinations(Game gameData, int initialRowIdx, int initialColIdx)
+        {
+            Dictionary<Tuple<int, int>, bool> moveDictionary = new Dictionary<Tuple<int, int>, bool>(); // memoization of moves that have been checked
+
+            var m = new Move();
+            // Rotate0(), initial
+                // check [0,0] diagonal, vertical, and horizontal combinations, block if there are winning moves for the opponent
+                // check if the agent should block the human's winning move in this current config, based on their 
+                
+            // Rotate1(), rotate 90 deg to the right
+                // check 0,2 diagonal, vertical, and horizontal combinations, block if there are winning moves for the opponent
+
+            // Rotate2()
+                // check 2,2 diagonal, vertical, and horizontal combinations, block if there are winning moves for the opponent
+
+            // Rotate3()
+                // check 2,0 diagonal, vertical, and horizontal combinations, block if there are winning moves for the opponent
+
+
+
+
             return m;
         }
     }

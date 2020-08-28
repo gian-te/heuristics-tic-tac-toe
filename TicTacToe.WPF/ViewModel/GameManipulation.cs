@@ -15,19 +15,27 @@ namespace TicTacToe.WPF.ViewModel
 
         public static void ClearAllData()
         {
-            Data.HumanHistory.Clear();
-            Data.Agent.History.Clear();
-            Data.SmartHistory.Clear();
-            Data.SmartMoves.Clear();
-            IsWinnerExist = false;
-
-            for (int i = 0; i < 3; i++)
+            try
             {
-                for (int j = 0; j < 3; j++)
+                Data.HumanHistory.Clear();
+                Data.Agent.History.Clear();
+                Data.AgentHistory.Clear();
+                Data.SmartMoves.Clear();
+                IsWinnerExist = false;
+
+                for (int i = 0; i < 3; i++)
                 {
-                    Data.GameData.GameState[i][j].Content = null;
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Data.GameData.GameState[i][j].Content = null;
+                    }
                 }
             }
+            catch 
+            {
+                // swallow if the user resetted without any moves
+            }
+           
         }
 
         public static void EvaluateGame(List<List<Label>> gameState, int row, int col)
@@ -50,7 +58,8 @@ namespace TicTacToe.WPF.ViewModel
                 }
                 else if (Data.GameLevel == IntelligenceLevels.Hardcoded)
                 {
-                    // map move to hardcoded table
+                    // generate move using hardcoded table
+                    GenerateHardCodedMove();
                 }
             }
         }
@@ -69,6 +78,14 @@ namespace TicTacToe.WPF.ViewModel
         {
             Move m = new Move();
             m = Data.Agent.GenerateMoveRandomly(Data.GameData, Data.HumanHistory);
+            Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
+            IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
+        }
+
+        public static void GenerateHardCodedMove()
+        {
+            Move m = new Move();
+            m = Data.Agent.GenerateMoveUsingHardCodedTable(Data.GameData, Data.HumanHistory);
             Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
             IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
         }

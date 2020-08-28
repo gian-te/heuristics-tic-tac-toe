@@ -374,7 +374,7 @@ namespace TicTacToe.Common.Utilities
                     gameData.SmartMoves.Remove(c);
             }
 
-            foreach (Move c in gameData.SmartHistory)
+            foreach (Move c in gameData.AgentHistory)
             {
                 if (gameData.SmartMoves.ContainsKey(c))
                     gameData.SmartMoves.Remove(c);
