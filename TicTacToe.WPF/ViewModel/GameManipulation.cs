@@ -77,7 +77,7 @@ namespace TicTacToe.WPF.ViewModel
         public static void GenerateRandomMove()
         {
             Move m = new Move();
-            m = Data.Agent.GenerateMoveRandomly(Data.GameData, Data.HumanHistory);
+            m = Data.Agent.MoveRandomly(Data.HumanHistory);
             Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
             IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
         }
@@ -85,7 +85,7 @@ namespace TicTacToe.WPF.ViewModel
         public static void GenerateHardCodedMove()
         {
             Move m = new Move();
-            m = Data.Agent.GenerateMoveUsingHardCodedTable(Data.GameData, Data.HumanHistory);
+            m = Data.Agent.MoveUsingHardCodedTable(Data.GameData, Data.HumanHistory);
             Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
             IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
         }
@@ -93,7 +93,7 @@ namespace TicTacToe.WPF.ViewModel
         public static void GenerateIntelligentMove()
         {
             Move m = new Move();
-            m = Data.Agent.GenerateMoveIntelligently(Data);
+            m = Data.Agent.MoveIntelligently(Data);
             // assign the move to the grid
             Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
             IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);

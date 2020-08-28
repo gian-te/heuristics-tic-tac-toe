@@ -35,7 +35,7 @@ namespace TicTacToe.WPF
             {
                 GameManipulation.GenerateHardCodedMove();
             }
-            // else agent to be notified via subscription in InitGameBoard.SubscribeEvent();
+            // there is a bug where if the player spams start, the agent will spam moving without waiting for the player's turn
         }
 
         private void ResetGame_Click(object sender, RoutedEventArgs e)
@@ -57,9 +57,13 @@ namespace TicTacToe.WPF
             {
                 case "Smart Agent":
                     GameManipulation.Data.FirstMove = Players.Agent;
+                    GameManipulation.Data.AgentSymbol = Symbols.X.ToString();
+                    GameManipulation.Data.HumanSymbol = Symbols.O.ToString();
                     break;
                 case "Human Player":
                     GameManipulation.Data.FirstMove = Players.Human;
+                    GameManipulation.Data.HumanSymbol = Symbols.X.ToString();
+                    GameManipulation.Data.AgentSymbol = Symbols.O.ToString();
                     break;
                 default:
                     break;
@@ -93,8 +97,9 @@ namespace TicTacToe.WPF
         {
             IsSmartAgent.IsChecked = true;
             IsRandom.IsChecked = true;
-            GameManipulation.Data.FirstMove = Players.Agent; // randomize first move later, or implement taking turns on who to move first later
-            //GameManipulation.Data.GameLevel = "Smart"; 
+            GameManipulation.Data.FirstMove = Players.Agent; // the one who is first to move  is always X, i think
+            
+
             GameManipulation.Data.AgentSymbol = Symbols.X.ToString(); 
             GameManipulation.Data.HumanSymbol = Symbols.O.ToString(); 
         }

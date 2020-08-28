@@ -9,7 +9,7 @@ namespace TicTacToe.WPF.ViewModel
         {
             if (CheckWinState(symbol))
             {
-                MessageBox.Show(DeclareWinner(symbol) + " has won!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Player "+ symbol + " has won!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 return true;
             }
 
@@ -21,13 +21,13 @@ namespace TicTacToe.WPF.ViewModel
             return false;
         }
 
-        private static string DeclareWinner(string symbol)
-        {
-            if (symbol == "X")
-                return "Smart Agent ";
-            else
-                return "Human Player ";
-        }
+        //private static string DeclareWinner(string symbol)
+        //{
+        //    if (symbol == "X")
+        //        return "Smart Agent ";
+        //    else
+        //        return "Human Player ";
+        //}
 
         private static bool CheckWinState(string symbol)
         {
