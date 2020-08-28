@@ -62,7 +62,7 @@ namespace TicTacToe.WPF.View
         {
             lbl.MouseDoubleClick += (sender, eventArgs) => {
                 if (lbl.Content == null)
-                    GameManipulation.ChangeLabelContent(gameBoard, row, col);
+                    GameManipulation.EvaluateGame(gameBoard, row, col);
                 else
                     MessageBox.Show("Please select another square!", "Invalid Move", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             };

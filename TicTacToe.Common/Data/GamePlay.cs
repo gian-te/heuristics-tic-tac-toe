@@ -1,34 +1,41 @@
 ﻿using System.Collections.Generic;
 using TicTacToe.Common.Entities;
+using TicTacToe.Common.Enums;
+using TicTacToe.Common.Utilities;
 
 namespace TicTacToe.Common.Data
 {
     public class GamePlay
     {
-        private string _smart;
-        public string Smart
+        /// <summary>
+        /// X or O as string
+        /// </summary>
+        private string _agentSymbol;
+        public string AgentSymbol
         {
             get
             {
-                return _smart;
+                return _agentSymbol;
             }
             set
             {
-                _smart = value;
+                _agentSymbol = value;
             }
         }
 
-
-        private string _human;
-        public string Human
+        /// <summary>
+        /// X or o as string
+        /// </summary>
+        private string _humanSymbol;
+        public string HumanSymbol
         {
             get
             {
-                return _human;
+                return _humanSymbol;
             }
             set
             {
-                _human = value;
+                _humanSymbol = value;
             }
         }
 
@@ -71,8 +78,8 @@ namespace TicTacToe.Common.Data
             }
         }
 
-        private string _gameLevel;
-        public string GameLevel
+        private IntelligenceLevels _gameLevel;
+        public IntelligenceLevels GameLevel
         {
             get
             {
@@ -85,7 +92,7 @@ namespace TicTacToe.Common.Data
         }
 
         private readonly Agent _agent = new Agent();
-        public Agent SmartAgent
+        public Agent Agent
         {
             get
             {
@@ -102,8 +109,8 @@ namespace TicTacToe.Common.Data
             }
         }
 
-        private string _firstMove;
-        public string FirstMove
+        private Players _firstMove;
+        public Players FirstMove
         {
             get
             {

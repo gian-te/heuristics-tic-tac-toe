@@ -22,7 +22,7 @@
                 <Button Content="START" HorizontalAlignment="Left" Height="27" Margin="57,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="StartGame_Click"/>
                 <Button Content="RESET" HorizontalAlignment="Left" Height="27" Margin="222,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="ResetGame_Click"/>
             </Grid>
-            <Grid x:Name="ticTacToeGrid" Margin="0,0,-0.333,-0.667" Background="#FF252827" />
+            <Grid x:Name="ticTacToeGrid" Margin="0,0,-0.333,-0.667" Background="#FF252827" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -75,9 +75,8 @@ namespace TicTacToe.Common.Entities
             Move m = new Move();
             do
             {
-                Random rnd = new Random();
-                col = rnd.Next(3);
-                row = rnd.Next(3);
+                col = Randomizer.RandomizeNumber(0, 3);
+                row = Randomizer.RandomizeNumber(0, 3);
                 usrCount = userHistory.Where(x => x.Row == row && x.Col == col).Count();
                 smrtCount = _history.Where(x => x.Row == row && x.Col == col).Count();
             } while ((usrCount > 0) || (smrtCount > 0));

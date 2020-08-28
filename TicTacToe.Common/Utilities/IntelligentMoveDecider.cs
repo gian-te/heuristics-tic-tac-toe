@@ -52,7 +52,7 @@ namespace TicTacToe.Common.Utilities
                 {
                     if (gameData.GameData.GameState[i][a].Content != null)
                     {
-                        if (gameData.GameData.GameState[i][a].Content.ToString() == gameData.Human)
+                        if (gameData.GameData.GameState[i][a].Content.ToString() == gameData.HumanSymbol)
                         {
                             opCount++;
                         }
@@ -82,7 +82,7 @@ namespace TicTacToe.Common.Utilities
                 {
                     if (gameData.GameData.GameState[a][i].Content != null)
                     {
-                        if (gameData.GameData.GameState[a][i].Content.ToString() == gameData.Human)
+                        if (gameData.GameData.GameState[a][i].Content.ToString() == gameData.HumanSymbol)
                             hasUserVal = true;
                     }
                     if (gameData.GameData.GameState[a][i].Content == null)
@@ -143,7 +143,7 @@ namespace TicTacToe.Common.Utilities
             {
                 if (gameData.GameData.GameState[i][i].Content != null)
                 {
-                    if (gameData.GameData.GameState[i][i].Content.ToString() != gameData.Smart)
+                    if (gameData.GameData.GameState[i][i].Content.ToString() != gameData.AgentSymbol)
                         opCount++;
                 }
                 else
@@ -165,7 +165,7 @@ namespace TicTacToe.Common.Utilities
             {
                 if (gameData.GameData.GameState[a][x].Content != null)
                 {
-                    if (gameData.GameData.GameState[a][x].Content.ToString() != gameData.Smart)
+                    if (gameData.GameData.GameState[a][x].Content.ToString() != gameData.AgentSymbol)
                         opCount++;
                 }
                 else
@@ -296,15 +296,15 @@ namespace TicTacToe.Common.Utilities
 
         public static bool BlockOpponentsWinMove(out int col, out int row)
         {
-            CheckOpponentsDiagMove(out col, out row, gameData.Human);
+            CheckOpponentsDiagMove(out col, out row, gameData.HumanSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
-            CheckOpponentsRowMove(out col, out row, gameData.Human);
+            CheckOpponentsRowMove(out col, out row, gameData.HumanSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
-            CheckOpponentsColMove(out col, out row, gameData.Human);
+            CheckOpponentsColMove(out col, out row, gameData.HumanSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
@@ -330,15 +330,15 @@ namespace TicTacToe.Common.Utilities
 
         public static bool GetNearWinMove(out int col, out int row)
         {
-            CheckOpponentsDiagMove(out col, out row, gameData.Smart);
+            CheckOpponentsDiagMove(out col, out row, gameData.AgentSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
-            CheckOpponentsRowMove(out col, out row, gameData.Smart);
+            CheckOpponentsRowMove(out col, out row, gameData.AgentSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
-            CheckOpponentsColMove(out col, out row, gameData.Smart);
+            CheckOpponentsColMove(out col, out row, gameData.AgentSymbol);
             if ((col != -1) && (row != -1))
                 return true;
 
@@ -396,9 +396,9 @@ namespace TicTacToe.Common.Utilities
             Dictionary<Move, int> tmp = new Dictionary<Move, int>();
             foreach (KeyValuePair<Move, int> pair in gameData.SmartMoves)
             {
-                gameData.GameData.GameState[pair.Key.Row][pair.Key.Col].Content = gameData.Smart;
-                int smCountWin = CountWinMoves(gameData.Smart);
-                int opCountWin = CountWinMoves(gameData.Human);
+                gameData.GameData.GameState[pair.Key.Row][pair.Key.Col].Content = gameData.AgentSymbol;
+                int smCountWin = CountWinMoves(gameData.AgentSymbol);
+                int opCountWin = CountWinMoves(gameData.HumanSymbol);
                 int diff = smCountWin - opCountWin;
                 gameData.GameData.GameState[pair.Key.Row][pair.Key.Col].Content = null;
                 tmp.Add(new Move() { Row = pair.Key.Row, Col = pair.Key.Col }, diff);

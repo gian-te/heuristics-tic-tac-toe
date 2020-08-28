@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using TicTacToe.Common.Data;
 using TicTacToe.Common.Entities;
+using TicTacToe.Common.Utilities;
 
 namespace TicTacToe.WPF.ViewModel
 {
@@ -14,7 +16,7 @@ namespace TicTacToe.WPF.ViewModel
         public static void ClearAllData()
         {
             Data.HumanHistory.Clear();
-            Data.SmartAgent.History.Clear();
+            Data.Agent.History.Clear();
             Data.SmartHistory.Clear();
             Data.SmartMoves.Clear();
             IsWinnerExist = false;
@@ -28,34 +30,56 @@ namespace TicTacToe.WPF.ViewModel
             }
         }
 
-        public static void ChangeLabelContent(List<List<Label>> gameState, int row, int col)
+        public static void EvaluateGame(List<List<Label>> gameState, int row, int col)
         {
+            // assigns the player's move to the grid behind the scenes
             HumanPlayerMovement(gameState, row, col);
-            int remSquares = 9 - (Data.SmartAgent.History.Count() + Data.HumanHistory.Count());
+            int remSquares = 9 - (Data.Agent.History.Count() + Data.HumanHistory.Count());
             if ((remSquares > 0) && (IsWinnerExist == false))
-                SmartAgentMovement();
+            {
+                // [gian] handle non-smart moves here ?
+                if (Data.GameLevel == IntelligenceLevels.Smart)
+                {
+                    // use heuristics
+                    GenerateIntelligentMove();
+                }
+                else if (Data.GameLevel == IntelligenceLevels.Random)
+                {
+                    // use randomizer
+                    GenerateRandomMove();
+                }
+                else if (Data.GameLevel == IntelligenceLevels.Hardcoded)
+                {
+                    // map move to hardcoded table
+                }
+            }
         }
 
 
         public static void HumanPlayerMovement(List<List<Label>> gameState, int row, int col)
         {
             Data.GameData.GameState = gameState;
-            Data.GameData.GameState[row][col].Content = Data.Human;
+            // assign the move to the grid
+            Data.GameData.GameState[row][col].Content = Data.HumanSymbol;
             Data.HumanHistory.Add(new Move() { Row = row, Col = col });
-            IsWinnerExist = CheckWinner.CheckWinningState(Data.Smart);
+            IsWinnerExist = CheckWinner.CheckWinningState(Data.HumanSymbol);
         }
 
-        public static void SmartAgentMovement()
+        public static void GenerateRandomMove()
         {
             Move m = new Move();
-            switch (Data.GameLevel)
-            {
-                case "Random": m = Data.SmartAgent.GenerateMoveRandomly(Data.GameData, Data.HumanHistory); break;
-                case "HardCoded": break;
-                case "Smart": m = Data.SmartAgent.GenerateMoveIntelligently(Data);  break;
-            }
-            Data.GameData.GameState[m.Row][m.Col].Content = Data.Smart;
-            IsWinnerExist = CheckWinner.CheckWinningState(Data.Smart);
+            m = Data.Agent.GenerateMoveRandomly(Data.GameData, Data.HumanHistory);
+            Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
+            IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
+        }
+
+        public static void GenerateIntelligentMove()
+        {
+            Move m = new Move();
+            m = Data.Agent.GenerateMoveIntelligently(Data);
+            // assign the move to the grid
+            Data.GameData.GameState[m.Row][m.Col].Content = Data.AgentSymbol;
+            IsWinnerExist = CheckWinner.CheckWinningState(Data.AgentSymbol);
         }
     }
 }
