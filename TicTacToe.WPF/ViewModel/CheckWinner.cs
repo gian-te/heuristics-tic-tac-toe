@@ -9,7 +9,7 @@ namespace TicTacToe.WPF.ViewModel
         {
             if (CheckWinState(symbol))
             {
-                MessageBox.Show("Player "+ symbol + " has won!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Player '"+ symbol + "' has won!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 return true;
             }
 
