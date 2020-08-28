@@ -184,7 +184,7 @@ namespace TicTacToe.Common.Entities
 
             if (m == null || (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null))
             {
-                m = MoveRandomly(humanHistory);
+                m = GenerateRandomMove(humanHistory, out m);
             }
             return m;
         }
