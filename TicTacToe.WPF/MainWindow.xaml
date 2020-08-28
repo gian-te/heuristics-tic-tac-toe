@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicTacToe.WPF"
         mc:Ignorable="d"
-              Title="Tic Tac Toe" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Foreground="White">
+              Title="Tic Tac Toe" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Foreground="White" Topmost="True">
     <Grid x:Name="mainGrid" Background="#FF252827">
         <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
             <Grid x:Name="dashBoard" Margin="0,0,-0.333,-1" Background="#FF252827" Width="440" Height="175" >

@@ -120,7 +120,7 @@ namespace TicTacToe.Common.Entities
         /// </summary>
         private Move CheckSymmetricCombinations(List<Move> humanHistory)
         {
-            var m = new Move();
+            Move m = null;
 
             if (History.Where(move => move.Row == 1 && move.Col == 1).FirstOrDefault() != null)
             {
@@ -132,39 +132,41 @@ namespace TicTacToe.Common.Entities
                     n = CheckForBlockingMoves(humanHistory);
                     if (n != null)
                     {
-                        if ((humanHistory.Where(move => move.Col == n.Col && move.Row == n.Row).FirstOrDefault() != null || History.Where(move => move.Col == n.Col && move.Row == n.Row).FirstOrDefault() != null))
+                        if ((humanHistory.Where(move => move.Col == n.Col && move.Row == n.Row).FirstOrDefault() == null && History.Where(move => move.Col == n.Col && move.Row == n.Row).FirstOrDefault() == null))
                         {
-                            n = GenerateRandomMove(humanHistory, out n);
+                            return n;
                         }
-                        return n;
                     }
                 }
                 else
                 {
                     return n;
                 }
-
                 // intermediate moves
                 if (History.Where(move => move.Row == 0 && move.Col == 0).FirstOrDefault() == null && humanHistory.Where(move => (move.Row == 0 && move.Col == 0) || (move.Row == 2 && move.Col == 2)).FirstOrDefault() == null)
                 {
+                    m = new Move();
                     m.Col = 0;
                     m.Row = 0;
                     return m;
                 }
                 if (History.Where(move => move.Row == 0 && move.Col == 2).FirstOrDefault() == null && humanHistory.Where(move => (move.Row == 0 && move.Col == 2) || (move.Row == 2 && move.Col == 0)).FirstOrDefault() == null)
                 {
+                    m = new Move();
                     m.Col = 2;
                     m.Row = 0;
                     return m;
                 }
                 if (History.Where(move => move.Row == 2 && move.Col == 0).FirstOrDefault() == null && humanHistory.Where(move => move.Row == 2 && move.Col == 0).FirstOrDefault() == null)
                 {
+                    m = new Move();
                     m.Col = 0;
                     m.Row = 2;
                     return m;
                 }
                 if (History.Where(move => move.Row == 2 && move.Col == 2).FirstOrDefault() == null && humanHistory.Where(move => move.Row == 2 && move.Col == 2).FirstOrDefault() == null)
                 {
+                    m = new Move();
                     m.Col = 2;
                     m.Row = 2;
                     return m;
@@ -174,13 +176,13 @@ namespace TicTacToe.Common.Entities
             {
                 // we know that the human took the center, our job is to block his winning moves
                 m = CheckForBlockingMoves(humanHistory);
-                if (m == null || (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null))
-                {
-                    m = MoveRandomly(humanHistory);
-                }
+               
             }
 
-
+            if (m == null || (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null))
+            {
+                m = MoveRandomly(humanHistory);
+            }
             return m;
         }
 
@@ -261,6 +263,12 @@ namespace TicTacToe.Common.Entities
             return m;
         }
 
+        /// <summary>
+        /// It just knows how to block diagonal moves, no heuristics involved here
+        /// </summary>
+        /// <param name="humanHistory"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private bool BlockMovesOnSameRowOrCol(List<Move> humanHistory, out Move m)
         {
             m = new Move();
@@ -269,29 +277,40 @@ namespace TicTacToe.Common.Entities
             var numMoves = humanHistory.Count;
             if (numMoves >= 2)
             {
-                var last = humanHistory[numMoves - 1];
-                var secondLast = humanHistory[numMoves - 2];
-                if (last.Col == secondLast.Col )
+                foreach (var move in humanHistory)
                 {
-                    retVal = true;
-                    for (int i = 0; i < 3; i++)
+                    foreach (var previousMove in humanHistory)
                     {
-                        if (i != last.Row && i != secondLast.Row)
+                        if (move == previousMove)
                         {
-                            m.Row = i;
-                            m.Col = last.Col;
+                            continue;
                         }
-                    }
-                }
-                else if (last.Row == secondLast.Row)
-                {
-                    retVal = true;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (i != last.Col && i != secondLast.Col)
+                        if (move.Col == previousMove.Col)
                         {
-                            m.Col = i;
-                            m.Row = last.Row;
+                            retVal = true;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (i != move.Row && i != previousMove.Row)
+                                {
+                                    m.Row = i;
+                                    m.Col = move.Col;
+                                    return retVal;
+                                }
+                            }
+
+                        }
+                        if (move.Row == previousMove.Row)
+                        {
+                            retVal = true;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (i != move.Col && i != previousMove.Col)
+                                {
+                                    m.Col = i;
+                                    m.Row = move.Row;
+                                    return retVal;
+                                }
+                            }
                         }
                     }
                 }
@@ -307,31 +326,81 @@ namespace TicTacToe.Common.Entities
         private Move CheckForWinningMoves(List<Move> humanHistory)
         {
             Move m = null;
-            if (History.Where(move => (move.Col == 1 && move.Row == 1) || (move.Col == 0 && move.Row == 0)).Count() >= 2)
-            {
-                if (humanHistory.Where(move => move.Col == 2 && move.Row == 0).FirstOrDefault() == null)
-                {
-                    m = new Move()
-                    {
-                        Row = 0,
-                        Col = 2
-                    };
-                }
-                // upper left to lower right diagonal
+            //if (History.Where(move => (move.Col == 1 && move.Row == 1) || (move.Col == 0 && move.Row == 0)).Count() >= 2)
+            //{
+            //    if (humanHistory.Where(move => move.Col == 2 && move.Row == 2).FirstOrDefault() == null)
+            //    {
+            //        m = new Move()
+            //        {
+            //            Row = 2,
+            //            Col = 2
+            //        };
+            //    }
+            //    // upper left to lower right diagonal
 
-            }
-            else if (History.Where(move => (move.Col == 1 && move.Row == 1) || (move.Col == 2 && move.Row == 0)).Count() >= 2)
+            //}
+            //else if (History.Where(move => (move.Col == 1 && move.Row == 1) || (move.Col == 2 && move.Row == 0)).Count() >= 2)
+            //{
+            //    if (humanHistory.Where(move => move.Col == 0 & move.Row == 2).FirstOrDefault() == null)
+            //    {
+            //        m = new Move()
+            //        {
+            //            Row = 2,
+            //            Col = 0
+            //        };
+            //    }
+            //    // upper right to lower left diagonal
+            //}
+            var numMoves = History.Count;
+            if (numMoves >= 2)
             {
-                if (humanHistory.Where(move => move.Col == 0 & move.Row == 2).FirstOrDefault() == null)
+                foreach (var move in History)
                 {
-                    m = new Move()
+                    foreach (var previousMove in History)
                     {
-                        Row = 2,
-                        Col = 0
-                    };
+                        if (move == previousMove)
+                        {
+                            continue;
+                        }
+                        if (move.Col == previousMove.Col)
+                        {
+                            
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (i != move.Row && i != previousMove.Row)
+                                {
+                                    m = new Move();
+                                    m.Row = i;
+                                    m.Col = move.Col;
+                                    if (humanHistory.Where(t => t.Col == m.Col & t.Row == m.Row).FirstOrDefault() != null)
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+
+                        }
+                        if (move.Row == previousMove.Row)
+                        {
+                           
+                            for (int i = 0; i < 3; i++)
+                            {
+                                if (i != move.Col && i != previousMove.Col)
+                                {
+                                    m = new Move();
+                                    m.Col = i;
+                                    m.Row = move.Row;
+                                    if (humanHistory.Where(t => t.Col == m.Col & t.Row == m.Row).FirstOrDefault() != null)
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                // upper right to lower left diagonal
             }
+
 
             return m;
         }
