@@ -374,6 +374,7 @@ namespace TicTacToe.Common.Entities
                                     m.Col = move.Col;
                                     if (humanHistory.Where(t => t.Col == m.Col & t.Row == m.Row).FirstOrDefault() != null)
                                     {
+                                        m = null;
                                         continue;
                                     }
                                 }
@@ -392,6 +393,7 @@ namespace TicTacToe.Common.Entities
                                     m.Row = move.Row;
                                     if (humanHistory.Where(t => t.Col == m.Col & t.Row == m.Row).FirstOrDefault() != null)
                                     {
+                                        m = null;
                                         continue;
                                     }
                                 }
