@@ -195,7 +195,7 @@ namespace TicTacToe.Common.Entities
 
             var lastMove = humanHistory.Last();
 
-            m = BlockMovesOnSameRowOrCol(humanHistory);
+            m = BlockMovesOnSameRowOrColOrDiagonal(humanHistory);
 
             if (m == null)
             {
@@ -223,7 +223,7 @@ namespace TicTacToe.Common.Entities
                 {
                     if (lastMove.Col == 0)
                     {
-                        // [0,0] was the player's move, counter with the opposite diagonal, [2,2]
+                        // [0,0] was the player's move, counter with the opposite symmetric square which is, [2,2]
                         m = new Move()
                         {
                             Row = 2,
@@ -232,7 +232,7 @@ namespace TicTacToe.Common.Entities
                     }
                     else if (lastMove.Col == 2)
                     {
-                        // [0,2] was the player's move, counter with the opposite diagonal, [2,0]
+                        // [0,2] was the player's move, counter with the opposite symmetric square which is, [2,0]
                         m = new Move()
                         {
                             Row = 2,
@@ -244,7 +244,7 @@ namespace TicTacToe.Common.Entities
                 {
                     if (lastMove.Col == 0)
                     {
-                        // [2,0] was the player's move, counter with the opposite diagonal, [0,2]
+                        // [2,0] was the player's move, counter with the opposite symmetric square which is, [0,2]
                         m = new Move()
                         {
                             Row = 0,
@@ -253,7 +253,7 @@ namespace TicTacToe.Common.Entities
                     }
                     else if (lastMove.Col == 2)
                     {
-                        // [2,2] was the player's move, counter with the opposite diagonal, [0,0]
+                        // [2,2] was the player's move, counter with the opposite symmetric square which is [0,0]
                         m = new Move()
                         {
                             Row = 0,
@@ -273,10 +273,9 @@ namespace TicTacToe.Common.Entities
         /// <param name="humanHistory"></param>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Move BlockMovesOnSameRowOrCol(List<Move> humanHistory)
+        private Move BlockMovesOnSameRowOrColOrDiagonal(List<Move> humanHistory)
         {
-            Move m = new Move();
-            var retVal = false;
+            Move m = null;
 
             var numMoves = humanHistory.Count;
             if (numMoves >= 2)
@@ -291,7 +290,6 @@ namespace TicTacToe.Common.Entities
                         }
                         if (pastMove.Col == previousMove.Col)
                         {
-                            retVal = true;
                             for (int i = 0; i < 3; i++)
                             {
                                 if (i != pastMove.Row && i != previousMove.Row)
@@ -311,7 +309,6 @@ namespace TicTacToe.Common.Entities
                         }
                         if (pastMove.Row == previousMove.Row)
                         {
-                            retVal = true;
                             for (int i = 0; i < 3; i++)
                             {
                                 if (i != pastMove.Col && i != previousMove.Col)
@@ -330,10 +327,79 @@ namespace TicTacToe.Common.Entities
                         }
                     }
                 }
+
+                // block diagonal winning moves
+                if (m == null && humanHistory.Where(move => move.Row == 1 && move.Col == 1).FirstOrDefault() != null)
+                {
+                    foreach (var item in humanHistory)
+                    {
+                        if (item.Col == 0 && item.Row == 0)
+                        {
+                            m = new Move()
+                            {
+                                Col = 2,
+                                Row = 2
+                            };
+                            if (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null)
+                            {
+                                m = null;
+                                continue;
+                            }
+                        }
+                        else if (item.Col == 2 && item.Row == 2)
+                        {
+                            m = new Move()
+                            {
+                                Col = 0,
+                                Row = 0
+                            };
+                            if (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null)
+                            {
+                                m = null;
+                                continue;
+                            }
+                        }
+                        else if (item.Row == 0 && item.Col == 2)
+                        {
+                            m = new Move()
+                            {
+                                Col = 0,
+                                Row = 2
+                            };
+                            if (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null)
+                            {
+                                m = null;
+                                continue;
+                            }
+                        }
+                        else if (item.Row == 2 && item.Col == 0)
+                        {
+                            m = new Move()
+                            {
+                                Col = 2,
+                                Row = 0
+                            };
+                            if (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null)
+                            {
+                                m = null;
+                                continue;
+                            }
+                        }
+                    }
+                }
             }
-            else
+            else 
             {
-                retVal = false;
+                // randomize a corner move
+                m = new Move()
+                {
+                    Col = Randomizer.RandomizeNumber(1, 100) > 50 ? 0 : 2,
+                    Row = Randomizer.RandomizeNumber(1, 100) > 50 ? 0 : 2
+                };
+                if (humanHistory.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null || History.Where(move => move.Col == m.Col && move.Row == m.Row).FirstOrDefault() != null)
+                {
+                    m = null;
+                }
             }
 
             return m;
