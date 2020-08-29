@@ -17,6 +17,7 @@ namespace TicTacToe.WPF
             InitializeComponent();
             InitGameBoard.InitGrid(ticTacToeGrid);
             InitAgents();
+            InitGameBoard.DisableButton(resetBtn, startBtn);
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
@@ -35,12 +36,16 @@ namespace TicTacToe.WPF
             {
                 GameManipulation.GenerateHardCodedMove();
             }
+
+            InitGameBoard.DisableButton(startBtn, resetBtn);
+            mainWin.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             // there is a bug where if the player spams start, the agent will spam moving without waiting for the player's turn
         }
 
         private void ResetGame_Click(object sender, RoutedEventArgs e)
         {
             Reset();
+            InitGameBoard.DisableButton(resetBtn, startBtn);
         }
 
         private void Reset()
@@ -98,8 +103,6 @@ namespace TicTacToe.WPF
             IsSmartAgent.IsChecked = true;
             IsRandom.IsChecked = true;
             GameManipulation.Data.FirstMove = Players.Agent; // the one who is first to move  is always X, i think
-            
-
             GameManipulation.Data.AgentSymbol = Symbols.X.ToString(); 
             GameManipulation.Data.HumanSymbol = Symbols.O.ToString(); 
         }
