@@ -1,4 +1,4 @@
-﻿<Window x:Class="TicTacToe.WPF.MainWindow"
+﻿<Window x:Name="mainWin" x:Class="TicTacToe.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,8 +19,8 @@
                 <RadioButton x:Name="IsHardCoded" GroupName="Level" Checked ="LevelChecked" Content="Hardcoded" HorizontalAlignment="Left" Height="27" Margin="176,87,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
                 <RadioButton x:Name="IsSmart" GroupName="Level" Checked ="LevelChecked" Content="Smart" HorizontalAlignment="Left" Height="27" Margin="296,87,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial" FontSize="15" VerticalContentAlignment="Center" Foreground="#FFFEB547" Background="#FFFEB547" BorderBrush="{x:Null}"/>
 
-                <Button Content="START" HorizontalAlignment="Left" Height="27" Margin="57,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="StartGame_Click"/>
-                <Button Content="RESET" HorizontalAlignment="Left" Height="27" Margin="222,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="ResetGame_Click"/>
+                <Button x:Name="startBtn" Content="START" HorizontalAlignment="Left" Height="27" Margin="57,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="StartGame_Click"/>
+                <Button x:Name="resetBtn" Content="RESET" HorizontalAlignment="Left" Height="27" Margin="222,127,0,0" VerticalAlignment="Top" Width="160" FontFamily="Arial" FontSize="14" Background="#FFFEB547" Foreground="White" BorderBrush="{x:Null}" Click="ResetGame_Click"/>
             </Grid>
             <Grid x:Name="ticTacToeGrid" Margin="0,0,-0.333,-0.667" Background="#FF252827" Visibility="Collapsed"/>
         </StackPanel>

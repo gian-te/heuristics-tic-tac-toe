@@ -66,7 +66,18 @@ namespace TicTacToe.WPF.View
                 else
                     MessageBox.Show("Please select another square!", "Invalid Move", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             };
+        }
 
+        public static void DisableButton(Button disableBtn, Button enableBtn)
+        {
+            disableBtn.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#252827")); 
+            disableBtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF7C7C7C")); 
+            disableBtn.BorderBrush = null;
+            disableBtn.IsEnabled = false;
+
+            enableBtn.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#252827"));
+            enableBtn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFEB547"));
+            enableBtn.IsEnabled = true;
         }
     }
 }
